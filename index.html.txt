@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Ozon App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #005bff;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .search {
+      flex: 1;
+      margin: 0 20px;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .cart {
+      background: white;
+      color: #005bff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .title {
+      font-size: 14px;
+      margin: 8px 0;
+    }
+
+    .price {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      background: #005bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0041c4;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">OZON mini</div>
+  <div class="search">
+    <input type="text" id="search" placeholder="Поиск товаров...">
+  </div>
+  <div class="cart">🛒 <span id="cartCount">0</span></div>
+</header>
+
+<div class="container">
+  <div class="grid" id="products"></div>
+</div>
+
+<script>
+  const products = [
+    { id: 1, name: "Смартфон", price: 19990, img: "https://via.placeholder.com/200" },
+    { id: 2, name: "Ноутбук", price: 59990, img: "https://via.placeholder.com/200" },
+    { id: 3, name: "Наушники", price: 2990, img: "https://via.placeholder.com/200" },
+    { id: 4, name: "Часы", price: 4990, img: "https://via.placeholder.com/200" },
+  ];
+
+  let cart = 0;
+
+  const container = document.getElementById("products");
+  const cartCount = document.getElementById("cartCount");
+  const searchInput = document.getElementById("search");
+
+  function render(items) {
+    container.innerHTML = "";
+    items.forEach(p => {
+      container.innerHTML += `
+        <div class="card">
+          <img src="${p.img}" />
+          <div class="title">${p.name}</div>
+          <div class="price">${p.price} ₽</div>
+          <button onclick="addToCart()">В корзину</button>
+        </div>
+      `;
+    });
+  }
+
+  function addToCart() {
+    cart++;
+    cartCount.innerText = cart;
+  }
+
+  searchInput.addEventListener("input", () => {
+    const value = searchInput.value.toLowerCase();
+    const filtered = products.filter(p =>
+      p.name.toLowerCase().includes(value)
+    );
+    render(filtered);
+  });
+
+  render(products);
+</script>
+
+</body>
+</html>
